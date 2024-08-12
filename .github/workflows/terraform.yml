@@ -79,11 +79,11 @@ jobs:
     - name: 'Verify Docker Image'
       run: docker images
 
-    - name: 'Create Workspace Directory for Snyk'
-      run: mkdir -p /workspace
+    - name: 'Create Snyk Results Directory'
+      run: mkdir -p ./workspace
 
     - name: 'Scan Docker Image with Snyk'
-      run: snyk container test myapp:latest --file=Dockerfile --severity-threshold=high > snyk-scan-results.txt
+      run: snyk container test myapp:latest --file=Dockerfile --severity-threshold=high > ./workspace/snyk-scan-results.txt
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       continue-on-error: true
@@ -93,7 +93,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: snyk-scan-results
-        path: snyk-scan-results.txt
+        path: ./workspace/snyk-scan-results.txt
         if-no-files-found: warn
 
     - name: 'Monitor Docker Image with Snyk'
@@ -126,12 +126,12 @@ jobs:
     - name: 'Verify Docker Image'
       run: docker images
 
-    - name: 'Create Workspace Directory for Aqua'
-      run: mkdir -p /workspace
+    - name: 'Create Aqua Results Directory'
+      run: mkdir -p ./workspace
 
     - name: 'Aqua Security Scan'
       run: |
-        docker run -v $(pwd):/workspace aquasec/trivy:latest image --format json --output /workspace/results.json myapp:latest
+        docker run -v $(pwd)/workspace:/workspace aquasec/trivy:latest image --format json --output /workspace/results.json myapp:latest
       continue-on-error: true
 
     - name: 'Upload Aqua Security Scan Results'
@@ -139,5 +139,5 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: aqua-scan-results
-        path: /workspace/results.json
+        path: ./workspace/results.json
         if-no-files-found: warn
