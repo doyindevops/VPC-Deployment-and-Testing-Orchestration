@@ -10,6 +10,10 @@ jobs:
   terraform:
     name: 'Terraform Plan and Apply'
     runs-on: ubuntu-latest
+    services:
+      docker:
+        image: docker:20.10.7
+        options: --privileged
 
     steps:
     - name: 'Checkout Code'
@@ -33,6 +37,10 @@ jobs:
   snyk:
     name: 'Snyk Security Scan'
     runs-on: ubuntu-latest
+    services:
+      docker:
+        image: docker:20.10.7
+        options: --privileged
 
     steps:
     - name: 'Checkout Code'
@@ -44,31 +52,29 @@ jobs:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
     - name: 'Build Docker Image'
-      run: |
-        docker build -t myapp:latest .
+      run: docker build -t myapp:latest .
 
     - name: 'Scan Docker Image with Snyk'
-      run: |
-        snyk container test myapp:latest --file=Dockerfile --severity-threshold=high
+      run: snyk container test myapp:latest --file=Dockerfile --severity-threshold=high
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
     - name: 'Monitor Docker Image with Snyk'
-      run: |
-        snyk container monitor myapp:latest --file=Dockerfile
+      run: snyk container monitor myapp:latest --file=Dockerfile
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
   aqua:
     name: 'Aqua Security Scan'
     runs-on: ubuntu-latest
+    services:
+      docker:
+        image: docker:20.10.7
+        options: --privileged
 
     steps:
     - name: 'Checkout Code'
       uses: actions/checkout@v2
 
     - name: 'Aqua Security Scan'
-      run: |
-        docker run -v $(pwd):/project aquasec/trivy:latest image --format json --output /project/results.json myapp:latest
-
-
+      run: docker run -v $(pwd):/project aquasec/trivy:latest image --format json --output /project/results.json myapp:latest
