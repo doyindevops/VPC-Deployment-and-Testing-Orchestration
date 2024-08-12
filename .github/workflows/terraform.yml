@@ -28,9 +28,13 @@ jobs:
       run: terraform init
 
     - name: 'Terraform Plan'
-    - name: 'Terraform Plan'
-     run: terraform plan -var="db_password=${{ secrets.DB_PASSWORD }}" -var="mariadb_password=${{ secrets.MARIADB_PASSWORD }}" -out=tfplan
-  
+      run: terraform plan -var="db_password=${{ secrets.DB_PASSWORD }}" -var="mariadb_password=${{ secrets.MARIADB_PASSWORD }}" -out=tfplan
+
+    - name: 'Upload Terraform Plan Artifact'
+      uses: actions/upload-artifact@v3
+      with:
+        name: tfplan
+        path: tfplan
 
     - name: 'Terraform Apply'
       if: github.ref == 'refs/heads/main'
@@ -69,6 +73,13 @@ jobs:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       continue-on-error: true
 
+    - name: 'Upload Snyk Scan Results'
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: snyk-scan-results
+        path: snyk-scan-results.txt  # Make sure to save the scan results to this file
+
     - name: 'Monitor Docker Image with Snyk'
       run: snyk container monitor myapp:latest --file=Dockerfile
       env:
@@ -103,3 +114,10 @@ jobs:
       run: |
         docker run -v $(pwd):/project aquasec/trivy:latest image --format json --output /project/results.json myapp:latest
       continue-on-error: true
+
+    - name: 'Upload Aqua Security Scan Results'
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: aqua-scan-results
+        path: /project/results.json
