@@ -1,7 +1,9 @@
 name: 'Terraform Infrastructure Destroy'
 
 on:
-  workflow_dispatch:  # Allows manual triggering of the workflow
+  push:
+    branches:
+      - destroy-infrastructure  # Trigger on push to the destroy-infrastructure branch
 
 jobs:
   destroy:
