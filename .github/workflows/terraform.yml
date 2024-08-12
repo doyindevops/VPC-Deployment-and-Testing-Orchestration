@@ -79,6 +79,9 @@ jobs:
     - name: 'Verify Docker Image'
       run: docker images
 
+    - name: 'Create Workspace Directory for Snyk'
+      run: mkdir -p /workspace
+
     - name: 'Scan Docker Image with Snyk'
       run: snyk container test myapp:latest --file=Dockerfile --severity-threshold=high > snyk-scan-results.txt
       env:
@@ -122,6 +125,9 @@ jobs:
 
     - name: 'Verify Docker Image'
       run: docker images
+
+    - name: 'Create Workspace Directory for Aqua'
+      run: mkdir -p /workspace
 
     - name: 'Aqua Security Scan'
       run: |
