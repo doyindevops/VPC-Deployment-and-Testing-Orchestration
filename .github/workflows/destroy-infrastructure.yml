@@ -6,9 +6,13 @@ on:
       - destroy-infrastructure  # Trigger on push to the destroy-infrastructure branch
 
 jobs:
-  destroy:
-    name: 'Terraform Destroy'
+  terraform:
+    name: 'Terraform Plan and Destroy'
     runs-on: ubuntu-latest
+    services:
+      docker:
+        image: docker:20.10.7
+        options: --privileged
 
     steps:
     - name: 'Checkout Code'
@@ -26,8 +30,21 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
 
-    - name: 'Terraform Destroy'
-      run: terraform destroy -auto-approve -var="db_password=${{ secrets.DB_PASSWORD }}" -var="mariadb_password=${{ secrets.MARIADB_PASSWORD }}" -var="rds_db_password=${{ secrets.RDS_DB_PASSWORD }}"
+    - name: 'Terraform Plan Destroy'
+      run: terraform plan -destroy -out=tfplan-destroy
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+
+    - name: 'Upload Terraform Destroy Plan Artifact'
+      uses: actions/upload-artifact@v3
+      with:
+        name: tfplan-destroy
+        path: tfplan-destroy
+
+    - name: 'Terraform Apply Destroy'
+      run: terraform apply -auto-approve "tfplan-destroy"
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
