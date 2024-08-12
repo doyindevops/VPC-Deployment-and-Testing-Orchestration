@@ -69,5 +69,6 @@ jobs:
 
     - name: 'Aqua Security Scan'
       run: |
-        docker run -v $(pwd):/project aquasec/trivy:latest --format json --output results.json .
+        docker run -v $(pwd):/project aquasec/trivy:latest image --format json --output /project/results.json myapp:latest
+
 
