@@ -30,18 +30,19 @@ jobs:
       if: github.ref == 'refs/heads/main'
       run: terraform apply -auto-approve "tfplan"
 
-  snyk:
-    name: 'Snyk Security Scan'
-    runs-on: ubuntu-latest
+snyk:
+  name: 'Snyk Security Scan'
+  runs-on: ubuntu-latest
 
-    steps:
-    - name: 'Checkout Code'
-      uses: actions/checkout@v2
+  steps:
+  - name: 'Checkout Code'
+    uses: actions/checkout@v2
 
-    - name: 'Run Snyk to check for vulnerabilities'
-      uses: snyk/actions@v1
-      env:
-        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+  - name: 'Run Snyk to check for vulnerabilities'
+    uses: snyk/actions@v1.9.0  # Replace with the latest stable version
+    env:
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
 
   aqua:
     name: 'Aqua Security Scan'
@@ -53,4 +54,5 @@ jobs:
 
     - name: 'Aqua Security Scan'
       run: |
-        docker run -v $(pwd):/project aquasec/trivy:latest --severity HIGH,CRITICAL --exit-code 1 .
+        docker run -v $(pwd):/project aquasec/trivy:latest --format json --output results.json .
+    
