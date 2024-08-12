@@ -46,11 +46,17 @@ jobs:
     - name: 'Checkout Code'
       uses: actions/checkout@v2
 
+    - name: 'Install Snyk CLI'
+      run: npm install -g snyk
+
     - name: 'Docker Login'
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
     - name: 'Build Docker Image'
       run: docker build -t myapp:latest .
+
+    - name: 'Verify Docker Image'
+      run: docker images
 
     - name: 'Scan Docker Image with Snyk'
       run: snyk container test myapp:latest --file=Dockerfile --severity-threshold=high
@@ -79,6 +85,9 @@ jobs:
 
     - name: 'Build Docker Image'
       run: docker build -t myapp:latest .
+
+    - name: 'Verify Docker Image'
+      run: docker images
 
     - name: 'Aqua Security Scan'
       run: |
