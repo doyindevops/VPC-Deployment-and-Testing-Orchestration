@@ -28,7 +28,9 @@ jobs:
       run: terraform init
 
     - name: 'Terraform Plan'
-      run: terraform plan -var="db_password=${{ secrets.DB_PASSWORD }}" -out=tfplan
+    - name: 'Terraform Plan'
+     run: terraform plan -var="db_password=${{ secrets.DB_PASSWORD }}" -var="mariadb_password=${{ secrets.MARIADB_PASSWORD }}" -out=tfplan
+  
 
     - name: 'Terraform Apply'
       if: github.ref == 'refs/heads/main'
