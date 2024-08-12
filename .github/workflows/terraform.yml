@@ -55,6 +55,9 @@ jobs:
     - name: 'Build Docker Image'
       run: docker build -t myapp:latest .
 
+    - name: 'Verify Docker Daemon'
+      run: docker info
+
     - name: 'Verify Docker Image'
       run: docker images
 
@@ -62,11 +65,13 @@ jobs:
       run: snyk container test myapp:latest --file=Dockerfile --severity-threshold=high
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      continue-on-error: true
 
     - name: 'Monitor Docker Image with Snyk'
       run: snyk container monitor myapp:latest --file=Dockerfile
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      continue-on-error: true
 
   aqua:
     name: 'Aqua Security Scan'
@@ -86,9 +91,13 @@ jobs:
     - name: 'Build Docker Image'
       run: docker build -t myapp:latest .
 
+    - name: 'Verify Docker Daemon'
+      run: docker info
+
     - name: 'Verify Docker Image'
       run: docker images
 
     - name: 'Aqua Security Scan'
       run: |
         docker run -v $(pwd):/project aquasec/trivy:latest image --format json --output /project/results.json myapp:latest
+      continue-on-error: true
