@@ -22,7 +22,7 @@ resource "docker_container" "mariadb" {
     "MYSQL_ROOT_PASSWORD=${var.mariadb_password}",
     "MYSQL_DATABASE=devop-database",
     "MYSQL_USER=devops",
-    "MYSQL_PASSWORD=devop-password"
+    "MYSQL_PASSWORD=safe-password"
   ]
   ports {
     internal = 3306
