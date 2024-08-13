@@ -39,7 +39,7 @@ jobs:
   terraform:
     name: 'Terraform Plan and Apply'
     runs-on: ubuntu-latest
-    needs: backend-setup  # Ensure this job runs after backend-setup
+    needs: backend-setup  # Ensure this job run after backend-setup
 
     steps:
     - name: 'Checkout Code'
