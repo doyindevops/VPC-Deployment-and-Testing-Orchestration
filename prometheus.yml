@@ -1,0 +1,11 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: "redis"
+    static_configs:
+      - targets: ["redis_container:6379"]
+
+  - job_name: "mariadb"
+    static_configs:
+      - targets: ["mariadb_container:3306"]

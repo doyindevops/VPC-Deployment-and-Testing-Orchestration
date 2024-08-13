@@ -1,0 +1,7 @@
+devops-key-pair.pem
+# Terraform directories and state files
+.terraform/
+
+# Terraform state files
+terraform.tfstate
+terraform.tfstate.backup

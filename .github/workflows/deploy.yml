@@ -1,0 +1,51 @@
+name: 'Terraform Infrastructure Provisioning with Security Scanning'
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-scan:
+    name: 'Build, Start Services, and Security Scan'
+    runs-on: ubuntu-latest
+
+    services:
+      docker:
+        image: docker:20.10.7
+        options: --privileged
+
+    steps:
+    - name: 'Checkout Code'
+      uses: actions/checkout@v2
+
+    - name: 'Set up Docker Compose'
+      run: |
+        sudo curl -L "https://github.com/docker/compose/releases/download/$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep -Po '(?<=\"tag_name\": \")[^\"]*')" -o /usr/local/bin/docker-compose
+        sudo chmod +x /usr/local/bin/docker-compose
+
+    - name: 'Build and Start Services'
+      run: docker-compose up -d --build
+
+    - name: 'Verify Docker Daemon'
+      run: docker info
+
+    - name: 'Scan Docker Image with Snyk'
+      run: snyk container test myapp:latest --file=Dockerfile --severity-threshold=high > ./workspace/snyk-scan-results.txt
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      continue-on-error: true
+
+    - name: 'Aqua Security Scan'
+      run: |
+        docker run -v $(pwd)/workspace:/workspace aquasec/trivy:latest image --format json --output /workspace/results.json myapp:latest
+      continue-on-error: true
+
+    - name: 'Upload Scan Results'
+      uses: actions/upload-artifact@v3
+      with:
+        name: scan-results
+        path: ./workspace/*.txt
