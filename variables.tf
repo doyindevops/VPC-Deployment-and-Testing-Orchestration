@@ -30,3 +30,32 @@ variable "key_name" {
   type        = string
 }
 
+variable "aws_access_key" {
+  description = "AWS access key for API operations."
+  type        = string
+  sensitive   = true
+}
+
+variable "aws_secret_key" {
+  description = "AWS secret key for API operations."
+  type        = string
+  sensitive   = true
+}
+
+variable "db_password" {
+  description = "The password for the database."
+  type        = string
+  sensitive   = true
+}
+
+variable "mariadb_password" {
+  description = "The password for the MariaDB root user."
+  type        = string
+  sensitive   = true
+}
+
+variable "rds_db_password" {
+  description = "The password for the RDS instance."
+  type        = string
+  sensitive   = true
+}
