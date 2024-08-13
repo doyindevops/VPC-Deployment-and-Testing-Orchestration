@@ -11,6 +11,15 @@ provider "docker" {
   host = "unix:///var/run/docker.sock"
 }
 
+terraform {
+  backend "s3" {
+    bucket         = "devops-statefile-backend2024"
+    key            = "terraform/state.tfstate"
+    region         = "eu-west-3"
+    encrypt        = true
+  }
+}
+
 # VPC configuration
 resource "aws_vpc" "devops_vpc" {
   cidr_block           = var.vpc_cidr
