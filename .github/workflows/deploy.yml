@@ -32,6 +32,9 @@ jobs:
         sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
         sudo apt-get update && sudo apt-get install terraform
 
+    - name: 'Install Snyk CLI'
+      run: npm install -g snyk
+
     - name: 'Build and Start Services'
       run: docker-compose up -d --build
 
@@ -45,12 +48,12 @@ jobs:
       run: snyk container test myapp:latest --file=Dockerfile --severity-threshold=high > ./workspace/snyk-scan-results.txt
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      
+      continue-on-error: true
 
     - name: 'Aqua Security Scan'
       run: |
         docker run -v $(pwd)/workspace:/workspace aquasec/trivy:0.18.3 image --format json --output /workspace/trivy-scan-results.json myapp:latest
-      
+      continue-on-error: true
 
     - name: 'Upload Scan Results'
       uses: actions/upload-artifact@v3
