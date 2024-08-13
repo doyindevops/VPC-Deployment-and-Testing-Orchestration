@@ -10,18 +10,6 @@ resource "aws_instance" "frontend" {
   }
 }
 
-resource "aws_instance" "backend" {
-  ami           = "ami-06996ab1f8883c198"
-  instance_type = var.instance_type
-  key_name      = var.key_name
-  subnet_id     = aws_subnet.private_subnet_1.id
-  security_groups = [aws_security_group.instance_sg.id]
-
-  tags = {
-    Name = "Backend"
-  }
-}
-
 resource "aws_instance" "jump_host" {
   ami           = "ami-03e722b916fa65716"
   instance_type = var.instance_type

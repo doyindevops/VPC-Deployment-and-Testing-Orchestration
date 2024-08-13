@@ -54,18 +54,3 @@ resource "aws_route_table_association" "private_association_2" {
   route_table_id = aws_route_table.private_rt.id
 }
 
-# S3 VPC Endpoint
-resource "aws_vpc_endpoint" "s3_vpc_endpoint" {
-  vpc_id            = aws_vpc.devops_vpc.id
-  service_name      = "com.amazonaws.${var.region}.s3"
-  vpc_endpoint_type = "Gateway"
-
-  route_table_ids = [
-    aws_route_table.public_rt.id,
-    aws_route_table.private_rt.id
-  ]
-
-  tags = {
-    Name = "S3 VPC Endpoint"
-  }
-}
