@@ -1,4 +1,4 @@
-name: 'Terraform Infrastructure Provisioning with Security Scanning'
+name: 'Terraform Infrastructure Provisioning with Security Scan'
 
 on:
   push:
