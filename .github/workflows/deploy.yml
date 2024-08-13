@@ -47,5 +47,5 @@ jobs:
     - name: 'Upload Scan Results'
       uses: actions/upload-artifact@v3
       with:
-        name: scan-results
+        name: scan-result
         path: ./workspace/*.txt
