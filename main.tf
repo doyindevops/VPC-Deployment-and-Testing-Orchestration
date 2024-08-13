@@ -5,19 +5,17 @@ terraform {
       version = "~> 3.0.2"
     }
   }
-}
 
-provider "docker" {
-  host = "unix:///var/run/docker.sock"
-}
-
-terraform {
   backend "s3" {
     bucket         = "devops-statefile-backend2024"
     key            = "terraform/state.tfstate"
     region         = "eu-west-3"
     encrypt        = true
   }
+}
+
+provider "docker" {
+  host = "unix:///var/run/docker.sock"
 }
 
 # VPC configuration
@@ -75,7 +73,6 @@ resource "aws_subnet" "private_subnet_2" {
   }
 }
 
-
 # EC2 instance to host Docker containers
 resource "aws_instance" "docker_host" {
   ami           = "ami-063a331710da39ad1"  # Amazon Linux 2 AMI
@@ -91,6 +88,8 @@ resource "aws_instance" "docker_host" {
               sudo usermod -a -G docker ec2-user
               sudo docker run -d -p 6379:6379 --name redis redis:latest
               sudo docker run -d -p 3306:3306 --name mariadb -e MYSQL_ROOT_PASSWORD=${var.mariadb_password} mariadb:latest
+              # Ensure the Prometheus configuration file exists at the correct path
+              echo "${var.prometheus_config}" > /etc/prometheus/prometheus.yml
               sudo docker run -d -p 9090:9090 --name prometheus -v /etc/prometheus:/etc/prometheus prom/prometheus
               EOF
 
