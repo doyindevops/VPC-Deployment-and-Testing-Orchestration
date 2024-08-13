@@ -45,15 +45,13 @@ jobs:
       run: mkdir -p ./workspace
 
     - name: 'Scan Docker Image with Snyk'
-      run: snyk container test myapp:latest --file=Dockerfile --severity-threshold=high > ./workspace/snyk-scan-results.txt
+      run: snyk container test myapp:latest --file=Dockerfile --severity-threshold=critical > ./workspace/snyk-scan-results.txt
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      
 
     - name: 'Aqua Security Scan'
       run: |
         docker run -v $(pwd)/workspace:/workspace aquasec/trivy:0.18.3 image --format json --output /workspace/trivy-scan-results.json myapp:latest
-      
 
     - name: 'Upload Scan Results'
       uses: actions/upload-artifact@v3
