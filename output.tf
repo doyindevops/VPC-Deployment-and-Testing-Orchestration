@@ -17,3 +17,7 @@ output "rds_endpoint" {
   description = "The endpoint of the RDS instance"
   value       = aws_db_instance.devops_rds.endpoint
 }
+
+output "updated_instance_id" {
+  value = aws_instance.correct_resource_name.id  # Replace with the correct resource
+}
