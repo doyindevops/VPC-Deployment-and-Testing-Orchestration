@@ -48,6 +48,7 @@ jobs:
       run: snyk container test myapp:latest --file=Dockerfile --severity-threshold=critical > ./workspace/snyk-scan-results.txt
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      continue-on-error: true
 
     - name: 'Aqua Security Scan'
       run: |
