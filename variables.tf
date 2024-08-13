@@ -59,3 +59,18 @@ variable "rds_db_password" {
   type        = string
   sensitive   = true
 }
+
+variable "prometheus_config" {
+  type        = string
+  description = "The content of the Prometheus configuration file"
+  default     = <<EOF
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+EOF
+}

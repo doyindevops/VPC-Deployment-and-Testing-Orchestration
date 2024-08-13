@@ -32,7 +32,7 @@ resource "aws_vpc" "devops_vpc" {
 # Public Subnet 1
 resource "aws_subnet" "public_subnet_1" {
   vpc_id            = aws_vpc.devops_vpc.id
-  cidr_block        = "10.0.11.0/24"  # Updated to avoid conflict
+  cidr_block        = "10.0.11.0/24"
   availability_zone = "eu-west-3a"
 
   tags = {
@@ -43,7 +43,7 @@ resource "aws_subnet" "public_subnet_1" {
 # Public Subnet 2
 resource "aws_subnet" "public_subnet_2" {
   vpc_id            = aws_vpc.devops_vpc.id
-  cidr_block        = "10.0.12.0/24"  # Updated to avoid conflict
+  cidr_block        = "10.0.12.0/24"
   availability_zone = "eu-west-3b"
 
   tags = {
@@ -54,7 +54,7 @@ resource "aws_subnet" "public_subnet_2" {
 # Private Subnet 1
 resource "aws_subnet" "private_subnet_1" {
   vpc_id            = aws_vpc.devops_vpc.id
-  cidr_block        = "10.0.21.0/24"  # Updated to avoid conflict
+  cidr_block        = "10.0.21.0/24"
   availability_zone = "eu-west-3a"
 
   tags = {
@@ -65,7 +65,7 @@ resource "aws_subnet" "private_subnet_1" {
 # Private Subnet 2
 resource "aws_subnet" "private_subnet_2" {
   vpc_id            = aws_vpc.devops_vpc.id
-  cidr_block        = "10.0.22.0/24"  # Updated to avoid conflict
+  cidr_block        = "10.0.22.0/24"
   availability_zone = "eu-west-3b"
 
   tags = {
