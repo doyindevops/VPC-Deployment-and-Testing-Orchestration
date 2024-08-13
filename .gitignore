@@ -4,4 +4,4 @@ devops-key-pair.pem
 
 # Terraform state files
 terraform.tfstate
-terraform.tfstate.backup
+terraform.tfstate.backupterraform.tfvars
