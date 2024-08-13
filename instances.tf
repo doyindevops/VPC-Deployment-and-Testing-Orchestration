@@ -46,18 +46,3 @@ resource "aws_instance" "bastion_host" {
   }
 }
 
-output "frontend_instance_id" {
-  value = aws_instance.frontend.id
-}
-
-output "backend_instance_id" {
-  value = aws_instance.backend.id
-}
-
-output "jump_host_instance_id" {
-  value = aws_instance.jump_host.id
-}
-
-output "bastion_host_instance_id" {
-  value = aws_instance.bastion_host.id
-}
