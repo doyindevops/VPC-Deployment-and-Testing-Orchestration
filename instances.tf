@@ -1,7 +1,7 @@
 resource "aws_instance" "frontend" {
   ami           = "ami-0d64d778de0fdce8d"
   instance_type = var.instance_type
-  key_name      = "VPC-GitOps"  # Update to the new key pair
+  key_name      = "K8s-key"  # Update to the new key pair
   subnet_id     = aws_subnet.public_subnet_1.id
   security_groups = [aws_security_group.instance_sg.id]
 
@@ -13,7 +13,7 @@ resource "aws_instance" "frontend" {
 resource "aws_instance" "backend" {
   ami           = "ami-03e722b916fa65716"
   instance_type = var.instance_type
-  key_name      = "VPC-GitOps"  # Update to the new key pair
+  key_name      = "K8s-key"  # Update to the new key pair
   subnet_id     = aws_subnet.private_subnet_1.id
   security_groups = [aws_security_group.instance_sg.id]
 
@@ -25,7 +25,7 @@ resource "aws_instance" "backend" {
 resource "aws_instance" "jump_host" {
   ami                    = "ami-03e722b916fa65716"
   instance_type          = var.instance_type
-  key_name               = "VPC-GitOps"  # Update to the new key pair
+  key_name               = "K8s-key"  # Update to the new key pair
   subnet_id              = aws_subnet.public_subnet_1.id
   associate_public_ip_address = true  # Ensure a public IP is associated
   security_groups        = [aws_security_group.instance_sg.id]
@@ -38,7 +38,7 @@ resource "aws_instance" "jump_host" {
 resource "aws_instance" "bastion_host" {
   ami           = "ami-0daac31e03d86a2f5"
   instance_type = var.instance_type
-  key_name      = "VPC-GitOps"  # Update to the new key pair
+  key_name      = "K8s-key"  # Update to the new key pair
   subnet_id     = aws_subnet.private_subnet_2.id
   security_groups = [aws_security_group.instance_sg.id]
 
@@ -50,7 +50,7 @@ resource "aws_instance" "bastion_host" {
 resource "aws_instance" "prometheus_server" {
   ami           = "ami-0daac31e03d86a2f5"  
   instance_type = "t2.micro"
-  key_name      = "VPC-GitOps"  # Update to the new key pair
+  key_name      = "K8s-key"  # Update to the new key pair
   subnet_id     = aws_subnet.private_subnet_1.id
 
   security_groups = [aws_security_group.prometheus_sg.id]
@@ -62,10 +62,10 @@ resource "aws_instance" "prometheus_server" {
   connection {
     type        = "ssh"
     user        = "ubuntu"
-    private_key = file("/home/doyin/VPC-GitOps.pem")  # Update to the new PEM file path
+    private_key = file("/home/doyin/K8s-key.pem")  # Update to the new PEM file path
     host        = self.private_ip  # Use private IP
     bastion_host = aws_instance.jump_host.public_ip  # Use the jump host as a bastion
     bastion_user = "ubuntu"
-    bastion_private_key = file("/home/doyin/VPC-GitOps.pem")  # Update to the new PEM file path
+    bastion_private_key = file("/home/doyin/K8s-key.pem")  # Update to the new PEM file path
   }
 }
