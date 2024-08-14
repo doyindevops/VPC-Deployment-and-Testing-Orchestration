@@ -66,4 +66,4 @@ resource "aws_instance" "prometheus_server" {
     host        = self.public_ip
   }
 }
-}
+
