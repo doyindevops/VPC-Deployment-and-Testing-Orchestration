@@ -56,7 +56,7 @@ resource "aws_instance" "prometheus_server" {
 
   key_name = "devops-key-pair"
 
-  security_groups = ["prometheus-security-group"]
+  security_groups = ["prometheus_sg"]
 
   connection {
     type        = "ssh"
