@@ -22,7 +22,7 @@ resource "aws_db_instance" "devops_rds" {
   db_subnet_group_name = aws_db_subnet_group.main.name
 
   tags = {
-    Name = "DevOps RDS Instance"
+    Name = "projectdevopsdb"
   }
 }
 

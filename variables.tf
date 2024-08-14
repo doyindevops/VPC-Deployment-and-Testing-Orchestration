@@ -30,18 +30,6 @@ variable "key_name" {
   type        = string
 }
 
-variable "aws_access_key" {
-  description = "AWS access key for API operations."
-  type        = string
-  sensitive   = true
-}
-
-variable "aws_secret_key" {
-  description = "AWS secret key for API operations."
-  type        = string
-  sensitive   = true
-}
-
 variable "db_password" {
   description = "The password for the database."
   type        = string

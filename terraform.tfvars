@@ -5,5 +5,6 @@ private_subnet_cidr = "10.0.2.0/24"
 key_name          = "devops-key-pair"
 instance_type     = "t3.large"
 db_password = "devsecops"
-
+mariadb_password = "safe-password"
+rds_db_password  =  "safe-password"
 

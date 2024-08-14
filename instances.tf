@@ -46,3 +46,22 @@ resource "aws_instance" "bastion_host" {
   }
 }
 
+resource "aws_instance" "prometheus_server" {
+  ami           = "ami-0daac31e03d86a2f5"  
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = "PrometheusServer"
+  }
+
+  key_name = "devops-key-pair"
+
+  security_groups = ["prometheus-security-group"]
+
+  connection {
+    type        = "ssh"
+    user        = "ubuntu"
+    private_key = file("/home/doyin/devops-key-pair.pem")
+    host        = self.public_ip
+  }
+}
