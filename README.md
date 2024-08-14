@@ -2,7 +2,8 @@ Sure! Here’s an enhanced and robust version of your README that will captivate
 
 ---
 
-# Terraform Infrastructure Provisioning with Security Scanning
+# VPC-Deployment-and-Testing-Orchestration 
+## (Terraform Infrastructure Provisioning with Security Scanning)
 
 ## Project Overview
 
@@ -59,30 +60,9 @@ To automate the deployment and security scanning process, this project leverages
    - Performs security scans on the Docker images using Snyk and Trivy, generating detailed reports.
    - Uploads the scan results as artifacts for further analysis and remediation.
 
-## Screenshots
+## IMAGES
 
-Explore the architecture and results visually with the following screenshots, all located in the `IMAGES` directory within this repository:
-
-- **Terraform Apply Output**: Shows the successful deployment of AWS resources.
-  ![Terraform Apply](./IMAGES/terraform%20apply%201.jpg)
-
-- **Running Instances**: A list of all EC2 instances running in the AWS environment.
-  ![Running Instances](./IMAGES/running%20instances.jpg)
-
-- **S3 Bucket**: Details of the S3 bucket used for storing Terraform state files.
-  ![S3 Bucket](./IMAGES/S3.jpg)
-
-- **RDS MySQL Database**: The RDS instance provisioned within the private subnet.
-  ![RDS Instance](./IMAGES/RDS.jpg)
-
-- **EC2 Instances**: Details of the EC2 instances running different components of the infrastructure.
-  ![Instances](./IMAGES/Instances.jpg)
-
-- **Load Balancer**: Configuration and status of the Application Load Balancer.
-  ![Load Balancer](./IMAGES/loadbalancer.jpg)
-
-- **Supplementary Views**: Additional details and configurations captured during the deployment process.
-  ![Supplementary](./IMAGES/supplimentary.jpg)
+Explore the architecture and results visually with the screenshots, all located in the `IMAGES` directory within this repository:
 
 ## Snyk Scan Report Summary
 
@@ -97,7 +77,7 @@ This project is a comprehensive automating infrastructure provisioning and integ
 
 ---
 
-### Created by Adedoyin Ekong - DevSecOps
+### Project Created by Adedoyin Ekong - DevSecOps
 
 ---
 
