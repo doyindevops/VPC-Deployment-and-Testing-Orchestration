@@ -33,3 +33,7 @@ output "jump_host_instance_id" {
 output "bastion_host_instance_id" {
   value = aws_instance.bastion_host.id
 }
+
+output "prometheus_server_ip" {
+  value = aws_instance.prometheus_server.public_ip
+}

@@ -71,15 +71,17 @@ resource "aws_security_group" "rds_sg" {
   }
 }
 
-resource "aws_security_group" "prometheus_security_group" {
-  name        = "prometheus-security-group"
-  description = "Allow access to Prometheus server"
+# security-group.tf
+resource "aws_security_group" "prometheus_sg" {
+  name        = "prometheus-sg"
+  description = "Allow inbound traffic to Prometheus"
+  vpc_id      = aws_vpc.devops_vpc.id
 
   ingress {
     from_port   = 9090
     to_port     = 9090
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]  # Replace with more restrictive IP range if needed
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -88,4 +90,9 @@ resource "aws_security_group" "prometheus_security_group" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  tags = {
+    Name = "Prometheus Security Group"
+  }
 }
+
