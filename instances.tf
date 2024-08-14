@@ -49,14 +49,15 @@ resource "aws_instance" "bastion_host" {
 resource "aws_instance" "prometheus_server" {
   ami           = "ami-0daac31e03d86a2f5"  
   instance_type = "t2.micro"
+  key_name      = "devops-key-pair"
+  subnet_id     = aws_subnet.private_subnet_1.id  # Specify the subnet where Prometheus should be deployed
+
+  # Correct the security group reference
+  security_groups = [aws_security_group.prometheus_sg.id]
 
   tags = {
     Name = "PrometheusServer"
   }
-
-  key_name = "devops-key-pair"
-
-  security_groups = ["prometheus_sg"]
 
   connection {
     type        = "ssh"
@@ -64,4 +65,5 @@ resource "aws_instance" "prometheus_server" {
     private_key = file("/home/doyin/devops-key-pair.pem")
     host        = self.public_ip
   }
+}
 }
