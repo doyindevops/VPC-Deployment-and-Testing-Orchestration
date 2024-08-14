@@ -23,11 +23,12 @@ resource "aws_instance" "backend" {
 }
 
 resource "aws_instance" "jump_host" {
-  ami           = "ami-03e722b916fa65716"
-  instance_type = var.instance_type
-  key_name      = var.key_name
-  subnet_id     = aws_subnet.public_subnet_1.id  # Move to a public subnet
-  security_groups = [aws_security_group.instance_sg.id]
+  ami                    = "ami-03e722b916fa65716"
+  instance_type          = var.instance_type
+  key_name               = var.key_name
+  subnet_id              = aws_subnet.public_subnet_1.id
+  associate_public_ip_address = true  # Ensure a public IP is associated
+  security_groups        = [aws_security_group.instance_sg.id]
 
   tags = {
     Name = "Jump Host"
