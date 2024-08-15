@@ -1,6 +1,4 @@
-Sure! Here’s an enhanced and robust version of your README that will captivate the reader’s attention. It includes mentions of where the images are stored within the repository for easy reference.
-
----
+Sure! Here’s an enhanced and robust version of your README that will captivate the reader’s attention. It includes mentions of where the images are stored 
 
 # VPC-Deployment-and-Testing-Orchestration 
 ## (Terraform Infrastructure Provisioning with Security Scanning)
