@@ -1,4 +1,5 @@
 devops-key-pair.pem
+VPC-GitOPs.pem
 # Terraform directories and state files
 .terraform/
 
